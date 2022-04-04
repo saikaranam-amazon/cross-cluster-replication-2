@@ -11,6 +11,7 @@
 
 package org.opensearch.replication.task
 
+import kotlinx.coroutines.*
 import org.opensearch.replication.ReplicationSettings
 import org.opensearch.replication.metadata.ReplicationMetadataManager
 import org.opensearch.replication.metadata.store.ReplicationMetadata
@@ -18,15 +19,6 @@ import org.opensearch.replication.task.autofollow.AutoFollowTask
 import org.opensearch.replication.task.shard.ShardReplicationTask
 import org.opensearch.replication.util.coroutineContext
 import org.opensearch.replication.util.suspending
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.NonCancellable
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeoutOrNull
 import org.apache.logging.log4j.Logger
 import org.opensearch.OpenSearchException
 import org.opensearch.action.ActionListener
@@ -178,6 +170,7 @@ abstract class CrossClusterReplicationTask(id: Long, type: String, action: Strin
         client.suspending(::updatePersistentTaskState)(state)
     }
 
+    @ObsoleteCoroutinesApi
     protected abstract suspend fun execute(scope: CoroutineScope, initialState: PersistentTaskState?)
 
     protected open suspend fun cleanup() {}
