@@ -89,7 +89,7 @@ class TransportGetChangesAction @Inject constructor(threadPool: ThreadPool, clus
                     // to the translog, which means we can't return those changes. Return to the caller to retry.
                     // TODO: Figure out a better way to wait for the global checkpoint to be synced to the translog
                     if (indexShard.lastSyncedGlobalCheckpoint < request.fromSeqNo) {
-                        assert(gcp > indexShard.lastSyncedGlobalCheckpoint) { "Checkpoint didn't advance at all" }
+                        assert(gcp > indexShard.lastSyncedGlobalCheckpoint) { "Checkpoint didn't advance at all gcp($gcp) <= syncedGCP($indexShard.lastSyncedGlobalCheckpoint)" }
                         throw OpenSearchTimeoutException("global checkpoint not synced. Retry after a few miliseconds...")
                     }
                 }
