@@ -23,7 +23,7 @@ jobs:
         name: "Security plugin check"
         run: |
           opensearch_version=$(grep "System.getProperty(\"opensearch.version\", \"" build.gradle | grep '\([0-9]\|[.]\)\{5\}' -o)
-          opensearch_version=$opensearch_version".0-SNAPSHOT"
+          opensearch_version=$opensearch_version".1-SNAPSHOT"
           # we publish build artifacts to the below url 
           plugin_url="https://aws.oss.sonatype.org/content/repositories/snapshots/org/opensearch/plugin/opensearch-security/"$opensearch_version"/"
           st=$(curl -s -o /dev/null -w "%{http_code}" $plugin_url)
